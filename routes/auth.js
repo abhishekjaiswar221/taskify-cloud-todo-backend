@@ -7,9 +7,9 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = "TaskifyCloudTodoApp";
 const fetchUser = require("../middleware/fetchuser");
 
-// ROUTE 1: Register or sign up a user using POST method "/api/auth/register".No login required
+// ROUTE 1: Register or sign up a user using POST method "/api/auth/sign-up".No login required
 router.post(
-  "/register",
+  "/sign-up",
   [
     body("name", "Enter a valid name").isLength({ min: 4 }),
     // body("username", "Enter a valid username").isLowercase({ min: 5 }),
@@ -63,9 +63,9 @@ router.post(
   }
 );
 
-//ROUTE 2: Authenticate a user using POST method "/api/auth/login".No login required
+//ROUTE 2: Authenticate a user using POST method "/api/auth/sign-in".No login required
 router.post(
-  "/login",
+  "/sign-in",
   [
     // body("username", "Enter a valid username").isLowercase({ min: 5 }),
     body("email", "Enter a valid email").isEmail(),
@@ -111,8 +111,8 @@ router.post(
   }
 );
 
-// ROUTE 3: Get details of logged-in users using "/api/auth/getuser". Login required
-router.post("/getuser", fetchUser, async (req, res) => {
+// ROUTE 3: Get details of logged-in users using "/api/auth/get-user". Login required
+router.post("/get-user", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await User.findById({ userId }).select("password");

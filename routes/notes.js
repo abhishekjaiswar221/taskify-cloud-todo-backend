@@ -4,8 +4,8 @@ const fetchuser = require("../middleware/fetchuser");
 const Notes = require("../models/Notes");
 const { body, validationResult } = require("express-validator");
 
-//ROUTE 1: Get all the notes using GET "/api/notes/fetchallnotes".Login required
-router.get("/fetchallnotes", fetchuser, async (req, res) => {
+//ROUTE 1: Get all the notes using GET "/api/notes/fetch-all-notes".Login required
+router.get("/fetch-all-notes", fetchuser, async (req, res) => {
   try {
     const notes = await Notes.find({ user: req.user.id });
     res.json(notes);
@@ -16,9 +16,9 @@ router.get("/fetchallnotes", fetchuser, async (req, res) => {
   }
 });
 
-//ROUTE 2: Add a new note using POST "/api/notes/addnote".Login required
+//ROUTE 2: Add a new note using POST "/api/notes/add-note".Login required
 router.post(
-  "/addnote",
+  "/add-note",
   fetchuser,
   [
     body("title", "Enter a valid title").isLength({ min: 3 }),
@@ -44,8 +44,8 @@ router.post(
   }
 );
 
-//ROUTE 3: Update an existing note using PUT "/api/notes/updatenote".Login required
-router.put("/updatenote/:id", fetchuser, async (req, res) => {
+//ROUTE 3: Update an existing note using PUT "/api/notes/update-note".Login required
+router.put("/update-note/:id", fetchuser, async (req, res) => {
   try {
     const { title, description, tag } = req.body;
     //Create a newObject
@@ -81,8 +81,8 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
   }
 });
 
-//ROUTE 4: Delete an existing note using DELETE "/api/notes/deletenote". Login Required
-router.delete("/deletenote/:id", fetchuser, async (req, res) => {
+//ROUTE 4: Delete an existing note using DELETE "/api/notes/delete-note". Login Required
+router.delete("/delete-note/:id", fetchuser, async (req, res) => {
   try {
     //Find a note to be deleted and delete it
     let notes = await Notes.findById(req.params.id);
