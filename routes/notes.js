@@ -1,11 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const fetchuser = require("../middleware/fetchuser");
-const Notes = require("../models/Notes");
-const { body, validationResult } = require("express-validator");
+import { Router } from "express";
+import Notes from "../models/Notes.js";
+import fetchUser from "../middleware/fetchuser.js";
+import { body, validationResult } from "express-validator";
+
+const router = Router();
 
 //ROUTE 1: Get all the notes using GET "/api/notes/fetch-all-notes".Login required
-router.get("/fetch-all-notes", fetchuser, async (req, res) => {
+router.get("/fetch-all-notes", fetchUser, async (req, res) => {
   try {
     const notes = await Notes.find({ user: req.user.id });
     res.json(notes);
@@ -19,7 +20,7 @@ router.get("/fetch-all-notes", fetchuser, async (req, res) => {
 //ROUTE 2: Add a new note using POST "/api/notes/add-note".Login required
 router.post(
   "/add-note",
-  fetchuser,
+  fetchUser,
   [
     body("title", "Enter a valid title").isLength({ min: 3 }),
     body("description", "Description must be at least 5 characters").isLength({
@@ -45,7 +46,7 @@ router.post(
 );
 
 //ROUTE 3: Update an existing note using PUT "/api/notes/update-note".Login required
-router.put("/update-note/:id", fetchuser, async (req, res) => {
+router.put("/update-note/:id", fetchUser, async (req, res) => {
   try {
     const { title, description, tag } = req.body;
     //Create a newObject
@@ -82,7 +83,7 @@ router.put("/update-note/:id", fetchuser, async (req, res) => {
 });
 
 //ROUTE 4: Delete an existing note using DELETE "/api/notes/delete-note". Login Required
-router.delete("/delete-note/:id", fetchuser, async (req, res) => {
+router.delete("/delete-note/:id", fetchUser, async (req, res) => {
   try {
     //Find a note to be deleted and delete it
     let notes = await Notes.findById(req.params.id);
@@ -101,4 +102,5 @@ router.delete("/delete-note/:id", fetchuser, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-module.exports = router;
+
+export default router;

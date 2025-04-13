@@ -1,5 +1,13 @@
 # Packages
-node_modules
+/node_modules
 
 # IDE Settings
+.vscode
 .idea
+
+# Environment Variables Files
+.env
+
+# Build Files
+/dist
+/build

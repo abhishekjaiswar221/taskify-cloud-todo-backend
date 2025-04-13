@@ -1,30 +1,25 @@
-//Deploy backend on render.com
-const cors = require("cors");
-const express = require("express");
-const connectToMongo = require("./dbConnection");
+import dotenv from "dotenv"; // Load Environment Variables
+import connectToMongo from "./database/dbConnection.js";
+import { app } from "./app.js";
 
-//Connection to MongoDB
-connectToMongo();
-
-//Express Server
-const app = express();
-const port = 5000;
-
-//Middleware
-app.use(express.json());
-
-//CORS
-app.use(cors()); // Keep this line before all the routes
-
-//Routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/notes", require("./routes/notes"));
-
-app.get("/", (req, res) => {
-  res.json(`Hello I am the Express Server From Localhost ${port}`);
+dotenv.config({
+  path: "./.env",
 });
 
-//Listening to the Server on Port 5000
-app.listen(port, () => {
-  console.log(`Taskify Todo listening on port http://localhost:${port}`);
+//Connection to MongoDB
+connectToMongo()
+  .then(() => {
+    //Listening to the Server on Port 5000
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(
+        `⚙️  Taskify Todo listening on port http://localhost:${process.env.PORT}`
+      );
+    });
+  })
+  .catch((error) => {
+    console.log("MongoDB Connection Failed !!! ", error);
+  });
+
+app.get("/", (req, res) => {
+  res.json(`Hello I am the Express Server from Render.com ${process.env.PORT}`);
 });

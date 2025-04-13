@@ -1,11 +1,13 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/Users");
-const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const JWT_SECRET = "TaskifyCloudTodoApp";
-const fetchUser = require("../middleware/fetchuser");
+import { Router } from "express";
+import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
+import User from "../models/Users.js";
+import fetchUser from "../middleware/fetchuser.js";
+import { body, validationResult } from "express-validator";
+
+const router = Router();
+const { genSalt, hash, compare } = bcryptjs;
+const { sign } = jwt;
 
 // ROUTE 1: Register or sign up a user using POST method "/api/auth/sign-up".No login required
 router.post(
@@ -36,8 +38,8 @@ router.post(
         });
       }
 
-      const salt = await bcrypt.genSalt(10);
-      const secPass = await bcrypt.hash(req.body.password, salt);
+      const salt = await genSalt(10);
+      const secPass = await hash(req.body.password, salt);
       //Create a new user
       user = await User.create({
         name: req.body.name,
@@ -51,8 +53,8 @@ router.post(
           id: user.id,
         },
       };
-      console.log(user);
-      const authToken = jwt.sign(data, JWT_SECRET);
+      // console.log(user);
+      const authToken = sign(data, process.env.JWT_SECRET);
       success = true;
       res.json({ success, authToken });
       // res.json(user); // Return the created user
@@ -88,7 +90,7 @@ router.post(
         });
       }
 
-      let comparePassword = await bcrypt.compare(password, user.password);
+      let comparePassword = await compare(password, user.password);
       if (!comparePassword) {
         return res.status(400).json({
           success,
@@ -101,7 +103,7 @@ router.post(
           id: user.id,
         },
       };
-      const authToken = jwt.sign(data, JWT_SECRET);
+      const authToken = sign(data, process.env.JWT_SECRET);
       success = true;
       res.json({ success, authToken });
     } catch (error) {
@@ -123,4 +125,4 @@ router.post("/get-user", fetchUser, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

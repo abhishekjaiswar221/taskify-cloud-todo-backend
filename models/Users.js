@@ -1,4 +1,5 @@
-const mongoose = require("mongoose"); // Import mongoose module
+import mongoose, { model } from "mongoose"; // Import mongoose module
+
 const { Schema } = mongoose; // Destructure Schema from mongoose
 
 // Create a new Schema
@@ -27,7 +28,7 @@ const UserSchema = new Schema({
   },
 });
 
-const User = mongoose.model("users", UserSchema); // Create a new model from the Schema
+const User = model("users", UserSchema); // Create a new model from the Schema
 User.createIndexes()
   .then(() => {
     // console.log("Index created successfully!");
@@ -35,4 +36,4 @@ User.createIndexes()
   .catch((err) => {
     console.error("Error creating index:", err);
   }); // Create Indexes for the Schema
-module.exports = User; // Export the model
+export default User; // Export the model
