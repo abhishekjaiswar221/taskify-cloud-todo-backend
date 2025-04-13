@@ -1,15 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/Users");
-const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const JWT_SECRET = "TaskifyCloudTodoApp";
-const fetchUser = require("../middleware/fetchuser");
+import { Router } from "express";
+import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
+import User from "../models/users-model.js";
+import fetchUser from "../middleware/fetch-user.js";
+import { body, validationResult } from "express-validator";
 
-// ROUTE 1: Register or sign up a user using POST method "/api/auth/register".No login required
+const router = Router();
+const { genSalt, hash, compare } = bcryptjs;
+const { sign } = jwt;
+
+// ROUTE 1: Register or sign up a user using POST method "/api/auth/sign-up".No login required
 router.post(
-  "/register",
+  "/sign-up",
   [
     body("name", "Enter a valid name").isLength({ min: 4 }),
     // body("username", "Enter a valid username").isLowercase({ min: 5 }),
@@ -36,8 +38,8 @@ router.post(
         });
       }
 
-      const salt = await bcrypt.genSalt(10);
-      const secPass = await bcrypt.hash(req.body.password, salt);
+      const salt = await genSalt(10);
+      const secPass = await hash(req.body.password, salt);
       //Create a new user
       user = await User.create({
         name: req.body.name,
@@ -51,8 +53,8 @@ router.post(
           id: user.id,
         },
       };
-      console.log(user);
-      const authToken = jwt.sign(data, JWT_SECRET);
+      // console.log(user);
+      const authToken = sign(data, process.env.JWT_SECRET);
       success = true;
       res.json({ success, authToken });
       // res.json(user); // Return the created user
@@ -63,9 +65,9 @@ router.post(
   }
 );
 
-//ROUTE 2: Authenticate a user using POST method "/api/auth/login".No login required
+//ROUTE 2: Authenticate a user using POST method "/api/auth/sign-in".No login required
 router.post(
-  "/login",
+  "/sign-in",
   [
     // body("username", "Enter a valid username").isLowercase({ min: 5 }),
     body("email", "Enter a valid email").isEmail(),
@@ -88,7 +90,7 @@ router.post(
         });
       }
 
-      let comparePassword = await bcrypt.compare(password, user.password);
+      let comparePassword = await compare(password, user.password);
       if (!comparePassword) {
         return res.status(400).json({
           success,
@@ -101,7 +103,7 @@ router.post(
           id: user.id,
         },
       };
-      const authToken = jwt.sign(data, JWT_SECRET);
+      const authToken = sign(data, process.env.JWT_SECRET);
       success = true;
       res.json({ success, authToken });
     } catch (error) {
@@ -111,8 +113,8 @@ router.post(
   }
 );
 
-// ROUTE 3: Get details of logged-in users using "/api/auth/getuser". Login required
-router.post("/getuser", fetchUser, async (req, res) => {
+// ROUTE 3: Get details of logged-in users using "/api/auth/get-user". Login required
+router.post("/get-user", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await User.findById({ userId }).select("password");
@@ -123,4 +125,4 @@ router.post("/getuser", fetchUser, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

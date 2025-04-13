@@ -1,13 +1,13 @@
 # Packages
 /node_modules
 
-# IDE Settings
-.vscode
-.idea
+# Production Build
+/dist
 
 # Environment Variables Files
+*.env
 .env
+.env.*
 
-# Build Files
-/dist
-/build
+# IDE Settings
+.idea

@@ -1,9 +1,11 @@
-const mongoose = require("mongoose"); // Import mongoose module
+import mongoose, { Schema as _Schema, model } from "mongoose"; // Import mongoose module
+
 const { Schema } = mongoose;
+
 // Declare the Schema of the Mongo model
 const NotesSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: _Schema.Types.ObjectId,
     ref: "user",
   },
   title: {
@@ -25,4 +27,4 @@ const NotesSchema = new Schema({
 });
 
 //Export the model
-module.exports = mongoose.model("notes", NotesSchema);
+export default model("notes", NotesSchema);
