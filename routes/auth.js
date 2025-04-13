@@ -1,8 +1,8 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
-import User from "../models/Users.js";
-import fetchUser from "../middleware/fetchuser.js";
+import User from "../models/users-model.js";
+import fetchUser from "../middleware/fetch-user.js";
 import { body, validationResult } from "express-validator";
 
 const router = Router();

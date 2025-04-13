@@ -1,6 +1,6 @@
 import { Router } from "express";
-import Notes from "../models/Notes.js";
-import fetchUser from "../middleware/fetchuser.js";
+import Notes from "../models/notes-model.js";
+import fetchUser from "../middleware/fetch-user.js";
 import { body, validationResult } from "express-validator";
 
 const router = Router();

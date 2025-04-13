@@ -1,5 +1,5 @@
 import dotenv from "dotenv"; // Load Environment Variables
-import connectToMongo from "./database/dbConnection.js";
+import connectToMongo from "./database/db-connection.js";
 import { app } from "./app.js";
 
 dotenv.config({
