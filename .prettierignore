@@ -1,0 +1,13 @@
+# Packages
+/node_modules
+
+# Production Build
+/dist
+
+# Environment Variables Files
+*.env
+.env
+.env.*
+
+# IDE Settings
+.idea
