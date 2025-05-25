@@ -34,7 +34,6 @@ The project uses Node.js, Express.js, Mongoose.js, JSON Web Token (JWT), and BCr
 │   ├── models/         # Mongoose models
 │   ├── routes/         # Routes
 │   ├── app.js          # Express server
-│   ├── constants.js    # Constant variables
 │   └── index.js        # App entry point
 ├── .env                # Environment variables
 ├── .gitignore          # Git ignore
@@ -89,7 +88,7 @@ Running in production:
 
 ```bash
 > npm run build # Build the application for production
-> npm run preview # Preview the application build for production
+> npm run preview # Preview the application built for production
 ```
 
 ## Run locally
