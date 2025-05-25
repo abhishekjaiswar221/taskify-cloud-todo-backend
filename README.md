@@ -79,16 +79,16 @@ MONGODB_URI = mongodb://127.0.0.1:27017/database_name # Local MongoDB URI
 Running in development:
 
 ```bash
-> npm run dev # Start the development server
+> pnpm dev # Start the development server
 # or
-> npm start # Run with Node.js
+> pnpm start # Run with Node.js
 ```
 
 Running in production:
 
 ```bash
-> npm run build # Build the application for production
-> npm run preview # Preview the application built for production
+> pnpm build # Build the application for production
+> pnpm preview # Preview the application built for production
 ```
 
 ## Run locally
@@ -110,7 +110,7 @@ Steps to run the `taskify-cloud-todo-backend` project on your localhost.
 3. **Install the dependencies:**
 
 ```bash
-> npm install
+> pnpm install
 ```
 
 4. **Set the environment variables:**
@@ -123,7 +123,7 @@ Steps to run the `taskify-cloud-todo-backend` project on your localhost.
 5. **Access the Application:**
    Open your web browser and navigate to the local URL where the development server is running (`http://localhost:5000`). You should be able to see and interact with the web application.
 
-Keep in mind that the available scripts and their functionality are defined in the project's `package.json` file. The above instructions assume that you have Node.js and npm installed on your system.
+Keep in mind that the available scripts and their functionality are defined in the project's `package.json` file. The above instructions assume that you have Node.js and pnpm installed on your system.
 
 ## Author
 
