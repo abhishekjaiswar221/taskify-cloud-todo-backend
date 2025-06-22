@@ -1,7 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
-import User from "../models/users-model.js";
+import users from "../models/users-model.js";
 import fetchUser from "../middleware/fetch-user.js";
 import { body, validationResult } from "express-validator";
 
@@ -30,7 +30,7 @@ router.post(
 
     //Check whether the user with this email exists already or not
     try {
-      let user = await User.findOne({ email: req.body.email });
+      let user = await users.findOne({ email: req.body.email });
       if (user) {
         return res.status(400).json({
           success,
@@ -41,7 +41,7 @@ router.post(
       const salt = await genSalt(10);
       const secPass = await hash(req.body.password, salt);
       //Create a new user
-      user = await User.create({
+      user = await users.create({
         name: req.body.name,
         // username: req.body.username,
         email: req.body.email,
@@ -82,7 +82,7 @@ router.post(
 
     const { email, password } = req.body;
     try {
-      let user = await User.findOne({ email });
+      let user = await users.findOne({ email });
       if (!user) {
         return res.status(400).json({
           success,
@@ -117,7 +117,7 @@ router.post(
 router.post("/get-user", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
-    const user = await User.findById({ userId }).select("password");
+    const user = await users.findById({ userId }).select("password");
     res.send(user);
   } catch (error) {
     console.error(error.message);
