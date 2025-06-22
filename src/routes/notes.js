@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Notes from "../models/notes-model.js";
+import note from "../models/notes-model.js";
 import fetchUser from "../middleware/fetch-user.js";
 import { body, validationResult } from "express-validator";
 
@@ -8,7 +8,7 @@ const router = Router();
 //ROUTE 1: Get all the notes using GET "/api/notes/fetch-all-notes".Login required
 router.get("/fetch-all-notes", fetchUser, async (req, res) => {
   try {
-    const notes = await Notes.find({ user: req.user.id });
+    const notes = await note.find({ user: req.user.id });
     res.json(notes);
     // res.json([{ myname: "abhishek" }]);
   } catch (error) {
@@ -35,7 +35,7 @@ router.post(
         return res.status(400).json({ error: error.array() });
       }
       let { title, description, tag } = req.body;
-      const notes = new Notes({ title, description, tag, user: req.user.id });
+      const notes = new note({ title, description, tag, user: req.user.id });
       const saveNotes = await notes.save();
       res.json(saveNotes);
     } catch (error) {
@@ -62,7 +62,7 @@ router.put("/update-note/:id", fetchUser, async (req, res) => {
     }
 
     //Find the note to be updated and update it
-    let notes = await Notes.findById(req.params.id);
+    let notes = await note.findById(req.params.id);
     if (!notes) {
       return res.status(404).send("Not Found");
     }
@@ -70,7 +70,7 @@ router.put("/update-note/:id", fetchUser, async (req, res) => {
       return res.status(401).send("Not Allowed");
     }
 
-    notes = await Notes.findByIdAndUpdate(
+    notes = await note.findByIdAndUpdate(
       req.params.id,
       { $set: newNote },
       { new: true }
@@ -86,7 +86,7 @@ router.put("/update-note/:id", fetchUser, async (req, res) => {
 router.delete("/delete-note/:id", fetchUser, async (req, res) => {
   try {
     //Find a note to be deleted and delete it
-    let notes = await Notes.findById(req.params.id);
+    let notes = await note.findById(req.params.id);
     if (!notes) {
       return res.status(404).send("Note Not Found");
     }
@@ -95,7 +95,7 @@ router.delete("/delete-note/:id", fetchUser, async (req, res) => {
       return res.status(401).send("Not Allowed");
     }
 
-    notes = await Notes.findByIdAndDelete(req.params.id);
+    notes = await note.findByIdAndDelete(req.params.id);
     res.json({ Success: "Note has been deleted", notes: notes });
   } catch (error) {
     console.error(error.message);

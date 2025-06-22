@@ -3,7 +3,7 @@ import mongoose, { Schema as _Schema, model } from "mongoose"; // Import mongoos
 const { Schema } = mongoose;
 
 // Declare the Schema of the Mongo model
-const NotesSchema = new Schema({
+const notesSchema = new Schema({
   user: {
     type: _Schema.Types.ObjectId,
     ref: "user",
@@ -27,4 +27,4 @@ const NotesSchema = new Schema({
 });
 
 //Export the model
-export default model("notes", NotesSchema);
+export default model("notes", notesSchema);

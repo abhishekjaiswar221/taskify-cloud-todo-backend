@@ -3,7 +3,7 @@ import mongoose, { model } from "mongoose"; // Import mongoose module
 const { Schema } = mongoose; // Destructure Schema from mongoose
 
 // Create a new Schema
-const UserSchema = new Schema({
+const usersSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -28,12 +28,13 @@ const UserSchema = new Schema({
   },
 });
 
-const User = model("users", UserSchema); // Create a new model from the Schema
-User.createIndexes()
+const users = model("users", usersSchema); // Create a new model from the Schema
+users
+  .createIndexes()
   .then(() => {
     // console.log("Index created successfully!");
   })
   .catch((err) => {
     console.error("Error creating index:", err);
   }); // Create Indexes for the Schema
-export default User; // Export the model
+export default users; // Export the model
