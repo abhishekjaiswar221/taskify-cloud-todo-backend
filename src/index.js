@@ -6,20 +6,15 @@ dotenv.config({
   path: "./.env",
 });
 
-//Connection to MongoDB
-connectToMongo()
-  .then(() => {
-    //Listening to the Server on Port 5000
-    app.listen(process.env.PORT || 5000, () => {
-      console.log(
-        `⚙️  Taskify Todo listening on port http://localhost:${process.env.PORT}`
-      );
-    });
-  })
-  .catch((error) => {
-    console.log("MongoDB Connection Failed !!! ", error);
-  });
+const startServer = async () => {
+  try {
+    await connectToMongo();
+    app.listen(process.env.PORT, () =>
+      console.log("Taskify ToDo server is running on port:", process.env.PORT)
+    );
+  } catch (error) {
+    console.error("Error starting the server", error);
+  }
+};
 
-app.get("/", (req, res) => {
-  res.json(`Hello I am the Express Server from Render.com ${process.env.PORT}`);
-});
+startServer();
