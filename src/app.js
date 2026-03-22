@@ -13,6 +13,11 @@ app.use(json());
 app.use(cors()); // Keep this line before all the routes
 
 //Routes
+app.get("/", (_, res) => {
+  res.status(200).json({
+    msg: `Hello I am Express Server from Render.com`,
+  });
+});
 app.use("/api/auth", authRoute);
 app.use("/api/notes", notesRoute);
 
