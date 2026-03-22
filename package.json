@@ -5,10 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "build": "rollup --config",
-    "preview": "node build/main.js"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
   },
   "author": "Abhishek D Jaiswar",
   "license": "MIT",
