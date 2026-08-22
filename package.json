@@ -3,10 +3,11 @@
   "description": "Taskify Todo - Your Task's On the Cloud.",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "api/index.js",
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "start": "node ./api/index.js",
+    "dev": "nodemon ./api/index.js"
   },
   "author": "Abhishek D Jaiswar",
   "license": "MIT",
